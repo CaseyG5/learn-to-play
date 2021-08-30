@@ -27,11 +27,13 @@ function LoginInPage() {
   return (
     <div>
       <h2 className="font-bold">Login Page</h2>
-      <form onSubmit={handleLogin}>
-        <input name="username" ref={username} type="text" />
-        <input name="password" ref={password} type="passward" />
+      <form onSubmit={handleLogin} className="flex flex-col">
+        <input name="username" ref={username} type="text" className="my-4 border" autocomplete="off"/>
+        <input name="password" ref={password} type="passward" className="mb-4 border" />
         {/* <button onClick={}>Login</button> */}
-        <input type="sumbit" value="Login" />
+        <input type="submit" 
+              value="Login" 
+            className="w-32 m-auto bg-blue-300"  />
       </form>
     </div>
   );
