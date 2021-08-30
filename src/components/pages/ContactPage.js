@@ -78,9 +78,9 @@ function ContactPage({ page }) {
         ></textarea>
 
         <input
-          type="text"
-          value="Submit"
-          className="block w-full bg-green-400"
+          type="submit"
+          value="Send"
+          className="block w-32 m-auto bg-green-400"
         />
       </form>
     </>
