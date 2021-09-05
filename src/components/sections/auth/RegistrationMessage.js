@@ -1,7 +1,7 @@
-function RegistrationMessage() {
+function RegistrationMessage(props) {
   return (
     <div>
-      <h1>Welcome</h1>
+      <h1 className="text-xl text-center">{props.message}</h1>
     </div>
   );
 }

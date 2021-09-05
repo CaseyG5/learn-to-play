@@ -57,7 +57,7 @@ function ContactPage({ page }) {
     const newContent = content.current.value;
 
     ////.. other logic
-    // this we send using thr link above
+    // this we send using the link above
   };
   return (
     <>
