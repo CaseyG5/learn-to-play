@@ -13,7 +13,7 @@ import ResultsTable from '../ResultsTable';
 // the 'fields' parameter filters the API response, containing the resource parts identified with 'part'
 
 let searchTerms = "blues%2Cguitar%2Clesson";
-const API_KEY = "AIzaSyDOFCqZ9SFvSnuc9nKvchW-63Q_xvm1Mxg";
+const API_KEY = "abcd1234";
 const API_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=4&order=rating&q=${searchTerms}&key=${API_KEY}`;
 let data = [];
 
