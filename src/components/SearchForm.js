@@ -2,11 +2,6 @@ import {useRef, useState} from "react";
 import { FaSearch } from 'react-icons/fa';
 import axios from "axios";
 
-// let searchTerms = "blues%2Cguitar%2Clesson";
-// const API_KEY = "AIzaSyDOFCqZ9SFvSnuc9nKvchW-63Q_xvm1Mxg";
-// const API_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=rating&q=${searchTerms}&key=${API_KEY}`;
-
-// &fields=items(id,snippet)
 
 const SearchForm = ( {handleSearch} ) => {
 
