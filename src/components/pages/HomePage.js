@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 let searchTerms = "blues%2Cguitar%2Clesson";
-const API_KEY = "AIzaSyDOFCqZ9SFvSnuc9nKvchW-63Q_xvm1Mxg";
+const API_KEY = "abcd1234";
 const API_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=rating&q=${searchTerms}&key=${API_KEY}`;
 let data = [];
 
