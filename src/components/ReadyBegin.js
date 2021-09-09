@@ -1,8 +1,9 @@
 
 
-const ReadyBegin = () => {
+const ReadyBegin = ( {loggedIn} ) => {
 
-    const beginPlan = () => {
+    const beginPlan = (evt) => {
+        evt.preventDefault();
         console.log("doing something");
     };
 

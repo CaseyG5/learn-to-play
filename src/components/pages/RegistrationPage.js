@@ -3,6 +3,7 @@ import {useState} from "react";
 import axios from "axios";
 import RegistrationForm from "../sections/auth/RegistrationForm";
 import RegistrationMessage from "../sections/auth/RegistrationMessage";
+import {Link} from "react-router-dom";
 //import Config from "../../Config";
 
 const RegistrationPage = () => {
@@ -37,10 +38,10 @@ const RegistrationPage = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="my-8 text-3xl">L2P logo here</h1>
+      <h1 className="my-8 p-2 text-3xl font-bold bg-indigo-100">L2P logo</h1>
       <RegistrationMessage message={regMsg}  />
       <RegistrationForm addUser={createNewUser} newID={nextID}/>
-
+      <span>Already joined? Log in <Link to="/login" className="text-blue-500 underline">here</Link>.</span>
     </div>
   );
 };

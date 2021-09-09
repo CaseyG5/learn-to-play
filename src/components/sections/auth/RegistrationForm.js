@@ -23,7 +23,7 @@ function RegistrationForm(props) {
       props.addUser(newUser);
   };
   return (
-    <form onSubmit={handleSubmit}  className="w-80 my-6 flex flex-col items-center justify-between">
+    <form onSubmit={handleSubmit}  className="w-80 my-8 flex flex-col items-center justify-between">
         <label htmlFor="name" className="w-full mb-4 flex flex-col items-center">
             <input name="name" type="text" ref={name} className="w-64 border-2" autoComplete="off"/>
             <span className="text-sm">Name</span>

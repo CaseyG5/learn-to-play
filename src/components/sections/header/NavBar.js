@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <div className="w-96 px-6 py-3 rounded bg-gray-200 flex justify-between">
-      <Link to="/search">Search</Link>
-      <Link to="/login">Login</Link>
-        {' '}
-      <Link to="/registration">Register</Link>
+    <div className="w-96 px-6 py-3 rounded bg-gray-200 flex justify-end">
+
+        <div className="w-1/3 flex justify-between">
+            <Link to="/login">Login</Link>
+            <Link to="/registration">Register</Link>
+        </div>
 
     </div>
   );

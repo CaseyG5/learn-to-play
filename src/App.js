@@ -31,30 +31,31 @@ import ResultsPage from "./components/pages/ResultsPage";
 //   >>>> [ ] Routing
 //        >>>> Jamstack <<< || LAMP || M[E][X]N
 
-//@TODO: connect YT data api
-//@TODO: search icons for buttons
-//@TODO: implement user reg
-
+//@TODO: connect YT data api                                        --- DONE
+//@TODO: allow dynamic search with words entered into input field   --- DONE
+//@TODO: search icons for buttons                                   --- DONE
+//@TODO: make DB for Docker and connect                             ---
+//@TODO: move DB to Supabase and connect
+//@TODO: when click Login, check UN & PW, then redirect to Dashboard/Profile
 
 export default function App() {
   return (
     <div className="bg-gray-300 h-screen">
-      {/* 
-      we replaced this from NavBar to split into smaller bit
-       */}
+
       <Header />
       <div className="w-96 h-172 bg-white p-6  mx-auto rounded">
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/search" component={ResultsPage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/registration" component={RegistrationPage} />
+            <Route exact path="/" component={HomePage} />
+
+            <Route exact path="/login" component={LoginPage} />
+            <Route exact path="/registration" component={RegistrationPage} />
         </Switch>
       </div>
 
     </div>
   );
 }
+// <Route exact path="/search" component={ResultsPage} />
 // <Route exact path="/about" component={AboutPage} />
 // <Route exact path="/contact" component={ContactPage} />
 // <Route exact path="/dashboard" component={DashboardPage} />
