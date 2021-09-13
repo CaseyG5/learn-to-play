@@ -4,7 +4,7 @@ function RegistrationForm(props) {
   //const [register, setRegister] = useState();  //?
 
   const name = useRef();
-  const username = useRef();
+  const email = useRef();
   const password = useRef();
 
   // this is the handler for the form
@@ -12,13 +12,21 @@ function RegistrationForm(props) {
     // this is the event that will be sent up
       evt.preventDefault();
 
-      let newUser = {};
+
 
       //newUser.row_id = props.newRow;
-      newUser.userid = props.newID;
-      newUser.name = name.current.value;    // @TODO: ensure no fields left blank
-      newUser.email = username.current.value;
+      //newUser.userid = props.newID;
+      // @TODO: ensure no fields left blank
+      if( name.current.value === "" || email.current.value === "" || password.current.value === "" ) return;
+
+      let newUser = {};
+      newUser.name = name.current.value;
+      newUser.email = email.current.value;
       newUser.password = password.current.value;
+
+      name.current.value = "";
+      email.current.value = "";
+      password.current.value = "";
 
       props.addUser(newUser);
   };
@@ -29,7 +37,7 @@ function RegistrationForm(props) {
             <span className="text-sm">Name</span>
         </label>
         <label htmlFor="email" className="w-full mb-4 flex flex-col items-center">
-            <input name="email" type="text" ref={username} className="w-64 border-2" autoComplete="off"/>
+            <input name="email" type="text" ref={email} className="w-64 border-2" autoComplete="off"/>
             <span className="text-sm">Email</span>
         </label>
         <label htmlFor="password" className="w-full flex flex-col items-center">

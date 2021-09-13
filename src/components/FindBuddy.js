@@ -1,14 +1,14 @@
 import { FaSearch } from 'react-icons/fa';
 
-const FindBuddy = () => {
+const FindBuddy = ( {setPage} ) => {
 
-    const buddySearch = (evt) => {
+    const goToBuddySearch = (evt) => {
         evt.preventDefault();
-        console.log("doing something");
+        setPage("partner");
     };
 
     return (
-        <form className="mb-6 flex flex-col items-center" onSubmit={buddySearch}>
+        <form className="mb-6 flex flex-col items-center" onSubmit={goToBuddySearch}>
             <h3 className="font-bold underline">Already practicing?</h3>
             <h4 className="text-md">Find a practice partner or</h4>
             <h4 className="text-md">accountability buddy.</h4>

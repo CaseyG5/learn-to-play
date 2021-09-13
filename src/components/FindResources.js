@@ -5,7 +5,7 @@ export default function FindResources( { handleSearch } ) {
 
     const queryTerms = useRef();            // OR use setSearchTerm(event.target.value);
 
-    const onSubmit = (event) => {
+    const submitSearch = (event) => {
         event.preventDefault();
         if(queryTerms.current.value === "") {
             console.log("Nothing to search for");
@@ -17,7 +17,7 @@ export default function FindResources( { handleSearch } ) {
 
     return (
 
-        <form className="mb-6 flex flex-col items-center" onSubmit={ onSubmit }  >
+        <form className="mb-6 flex flex-col items-center" onSubmit={ submitSearch }  >
             <span className="font-bold underline">Search for sheets/lessons</span>
             <div className="my-4 flex flex-col">
                 <label htmlFor="videos">

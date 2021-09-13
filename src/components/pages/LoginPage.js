@@ -1,18 +1,37 @@
+import dotenv from 'dotenv';        // and add  const TEST_KEY = process.env.TEST_KEY;
+import { createClient } from '@supabase/supabase-js';
 import { useRef } from "react";
+import Config from '../../Config'
 import { Link } from 'react-router-dom';
 import LoginForm from '../LoginForm';
 
+const API_URL = Config.SUPA_URL;
+const API_KEY = Config.SUPA_KEY;
 
-function LoginPage() {
-
-    const handleLogin = (email, password) => {
+// = process.env.SUPABASE_KEY
 
 
+function LoginPage( {setLoggedIn} ) {
 
-        console.log(`Logging in as: 
-          ${email}
-          ${password}
-          `);
+    const handleLogin = (typedEmail, typedPassword) => {
+
+        const supaLogin = async () => {
+            // connect to supabase via api
+            const supabase = createClient(API_URL, API_KEY);
+            //supabase.from('Users').select('userName' );
+
+            let { user, error } = await supabase.auth.signIn( {
+                email: typedEmail,
+                password: typedPassword
+            })
+            if(!error) {
+                setLoggedIn(true);
+                console.log("User " + user + " logged in");
+            }
+            else console.log("Error: " + error.message);
+        }
+
+        supaLogin();
     };
 
     return (

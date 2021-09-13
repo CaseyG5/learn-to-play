@@ -1,17 +1,9 @@
-/**
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import { useState } from "react";
-*/
 
-/**
- * @author deberohp
- */
-
-function DashboardPage(props) {
+function DashboardPage( { user } ) {
   return (
     <div>
-      <h3 className={"font-bold"}>Welcome to your Dashboard</h3>
+      <h3 className={"font-bold"}>Hey {user.name}, welcome{ user.lastLogin ? " back." : "." }</h3>
+        <p></p>
     </div>
   );
 }
