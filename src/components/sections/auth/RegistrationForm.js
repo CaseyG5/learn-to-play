@@ -12,11 +12,7 @@ function RegistrationForm(props) {
     // this is the event that will be sent up
       evt.preventDefault();
 
-
-
-      //newUser.row_id = props.newRow;
-      //newUser.userid = props.newID;
-      // @TODO: ensure no fields left blank
+      // ensure no fields left blank
       if( name.current.value === "" || email.current.value === "" || password.current.value === "" ) return;
 
       let newUser = {};

@@ -1,45 +1,33 @@
-
 import {useState} from "react";
-import axios from "axios";
+import supabase from "../../supabaseClient";    // connect to supabase via api
 import RegistrationForm from "../sections/auth/RegistrationForm";
 import RegistrationMessage from "../sections/auth/RegistrationMessage";
 import {Link} from "react-router-dom";
-import {createClient} from "@supabase/supabase-js";
-import Config from "../../Config";
-//import Config from "../../Config";
 
-const API_URL = Config.SUPA_URL;
-const API_KEY = Config.SUPA_KEY;
-
-// = process.env.SUPABASE_KEY
 
 const RegistrationPage = () => {
-  const [regMsg, setRegMsg] = useState("Please join the community to continue.");
+    const [regMsg, setRegMsg] = useState("Please join the community to continue.");
 
-  const createNewUser = (userObj) => {
+    const createNewUser = async (userObj) => {
+        try {
+            const { user1, session, signupError } = await supabase.auth.signUp( {
+                email: userObj.email,
+                password: userObj.password
+            });
+            if (signupError) throw signupError;
 
-      const supaJoin = async () => {
-        // connect to supabase via api
-        const supabase = createClient(API_URL, API_KEY);
-
-        let { user, error } = await supabase.auth.signUp( {
-          //name: userObj.name,
-          email: userObj.email,
-          password: userObj.password
-        });
-
-        if(error) {
-          console.log("Error: " + error.message);
+            // then how to add name to 'members' table using 'id' or uuid?
+            else {
+                console.log("signUp should have worked");
+                // console.log(user);
+                // console.log("User " + user2.name + " registered");
+                // setRegMsg(`${user} has joined the community!`);
+            }
+        } catch(error) {
+            alert(error.description || error.message);
         }
-        else if( user.id ) {
-            console.log(user);
-          console.log("User " + user.name + " registered");
-          //setRegMsg(`${user} has joined the community!`);
-        }
-      };
 
-      supaJoin();
-  };
+    };
 
   // let rowID = 0;
   // let nextID = 1000;
@@ -81,4 +69,77 @@ const RegistrationPage = () => {
 
 export default RegistrationPage;
 
-// newID={nextID}
+
+// const [loading, setLoading] = useState(true);
+// const [username, setUsername] = useState(null);
+// const [website, setWebsite] = useState(null);
+// const [avatar_url, setAvatarUrl] = useState(null);
+//
+// useEffect( () => {
+//     getProfile();
+// }
+
+// const handleLogin = async (email) => {
+//     try {
+//         setLoading(true);
+//         const { error } = await supabase.auth.signIn( {email} );
+//         if (error) throw error;
+//         alert('Check yo email for the login link!');
+//     } catch (error)  {
+//         alert(error.description || error.message);
+//     } finally {
+//         setLoading(false);
+//     }
+// }
+// async function getProfile() {
+//     try {
+//         setLoading(true);
+//         const user = supabase.auth.user();
+//
+//         let { data, error, status } = await supabase
+//             .from('profiles')
+//             .select(`username, website, avatar_url`)
+//             .eq('id', user.id)
+//             .single();
+//
+//         if (error && status !== 406) {
+//             throw error
+//         }
+//         if (data) {
+//             setUsername(data.username);
+//             setWebsite(data.website);
+//             setAvatarUrl(data.avatar_url);
+//         }
+//     } catch (error) {
+//         alert(error.message);
+//     } finally {
+//         setLoading(false);
+//     }
+// }
+//
+// async function updateProfile( { username, website, avatar_url } ) {
+//     try {
+//         setLoading(true);
+//         const user = supabase.auth.user()
+//
+//         const updates = {
+//             id: user.id,
+//             username,
+//             website,
+//             avatar_url,
+//             updated_at: new Date(),
+//         }
+//
+//         let { error } = await supabase.from('profiles').upsert(updates, {
+//             returning: 'minimal'  // don't return value after inserting
+//         });
+//
+//         if (error) {
+//             throw error;
+//         }
+//     } catch (error) {
+//         alert(error.message);
+//     } finally {
+//         setLoading(false);
+//     }
+// }

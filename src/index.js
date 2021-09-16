@@ -10,3 +10,17 @@ ReactDOM.render(
   </BrowserRouter>,
   rootElement
 );
+
+/**
+ * -- components
+ * --- pages
+ * --- [F] search
+ *   ----
+ *  -----
+ * --- [F] user
+ *   ---- User..
+ * --- [F] auth
+ *  --- Login /Register
+ * --- buddy
+ *  ----
+ */

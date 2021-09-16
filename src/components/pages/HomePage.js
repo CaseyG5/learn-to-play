@@ -16,8 +16,8 @@ let videos = [];
 
 // &fields=items(id,snippet)
 
-const HomePage = () => {
-    const [page, setPage] = useState("home");
+const HomePage = ( {page, setPage} ) => {
+
     const [loggedIn, setLoggedIn] = useState(false);
     const [hasPlan, setHasPlan] = useState(false);           // get value from DB after logged in
     //const [dataReceived, setDataReceived] = useState(false);
@@ -53,8 +53,8 @@ const HomePage = () => {
     switch(page) {
         case "results":
             return <ResultsPage data={videos} query={searchWords}/> ;
-        case "profile":
-            if (loggedIn) return <ProfilePage />;
+        case "dashboard":
+            if (loggedIn) return <DashboardPage />;
             return <LoginPage setLoggedIn={setLoggedIn} /> ;
         case "practice":
             if(loggedIn) return <PracticePlan /> ;

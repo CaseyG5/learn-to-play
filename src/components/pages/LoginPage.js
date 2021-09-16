@@ -1,37 +1,60 @@
-import dotenv from 'dotenv';        // and add  const TEST_KEY = process.env.TEST_KEY;
-import { createClient } from '@supabase/supabase-js';
-import { useRef } from "react";
+
+import supabase from '../../supabaseClient';
+import { useState } from "react";
 import Config from '../../Config'
-import { Link } from 'react-router-dom';
 import LoginForm from '../LoginForm';
-
-const API_URL = Config.SUPA_URL;
-const API_KEY = Config.SUPA_KEY;
-
-// = process.env.SUPABASE_KEY
+import { Link } from 'react-router-dom';
 
 
-function LoginPage( {setLoggedIn} ) {
+function LoginPage( {setMember, setLoggedIn} ) {
+    const [name, setName] = useState( "" );
+    // const [location, setLocation] = useState( {} )
+    // const [instruments, setInstruments] = useState( {} );
+    // const [about, setAbout] = useState( "" );
+    // const [acctStatus, setAcctStatus] = useState( "" );
+    // const [dateJoined, setDateJoined] = useState( null );
+    // const [lastLogin, setLastLogin] = useState( null)
 
-    const handleLogin = (typedEmail, typedPassword) => {
 
-        const supaLogin = async () => {
-            // connect to supabase via api
-            const supabase = createClient(API_URL, API_KEY);
-            //supabase.from('Users').select('userName' );
+    const handleLogin = async (typedEmail, typedPassword) => {
 
-            let { user, error } = await supabase.auth.signIn( {
-                email: typedEmail,
-                password: typedPassword
-            })
-            if(!error) {
+        try {
+            // // const user = supabase.auth.user();
+            // const { signInError } = await supabase.auth.signIn({
+            //     email: typedEmail,
+            //     password: typedPassword
+            // })
+            // if (signInError) throw signInError;
+            // const {data, error, status} = await supabase.from('members')
+            //                             .select('userID, name, created_at')
+            //                             .eq('email', typedEmail)
+            //                             .eq('password', typedPassword)
+            //                             .single();
+            //
+            // if (error && status !== 406) throw error;
+            // if (data) {
+            //     // update states? to display name, location, about, etc.
+            //     console.log(data);
+            //     console.log(data.userID + " - " + data.name + " - joined on " + data.created_at);
+            //     // setName(data.name);
+            //     // setLocation(data.location);
+            //     // setDateJoined(data.dateJoined);
+                setMember( {
+                    name: "Noob Saibot",
+                    location: "Chicago, IL, USA",
+                    // instruments: data.instruments,
+                    // about: data.about,
+                    // acctStatus: data.acctStatus,
+                    dateJoined: "Jan 1st 2000",
+                    lastLogin: "Sep 15 2021"
+                } )
                 setLoggedIn(true);
-                console.log("User " + user + " logged in");
-            }
-            else console.log("Error: " + error.message);
+                //console.log("User " + data.name + " logged in");
+            //}
+        } catch (e) {
+            alert(e.description || e.message);
         }
 
-        supaLogin();
     };
 
     return (
