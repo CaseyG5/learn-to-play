@@ -2,10 +2,10 @@ import {useState} from "react";
 import supabase from "../../supabaseClient";    // connect to supabase via api
 import RegistrationForm from "../sections/auth/RegistrationForm";
 import RegistrationMessage from "../sections/auth/RegistrationMessage";
-import {Link} from "react-router-dom";
 
 
-const RegistrationPage = () => {
+
+const RegistrationPage = ( {setPage} ) => {
     const [regMsg, setRegMsg] = useState("Please join the community to continue.");
 
     const createNewUser = async (userObj) => {
@@ -16,13 +16,18 @@ const RegistrationPage = () => {
             });
             if (signupError) throw signupError;
 
-            // then how to add name to 'members' table using 'id' or uuid?
-            else {
-                console.log("signUp should have worked");
-                // console.log(user);
-                // console.log("User " + user2.name + " registered");
-                // setRegMsg(`${user} has joined the community!`);
-            }
+            // then how to add name to 'members' table using 'auth' table and 'id' or uuid???
+            // CURRENTLY GET 403 - access forbidden
+            // const { data, upsertError } = await supabase.from('members').insert( [
+            //     { name: userObj.name }
+            // ]);
+            //
+            // if( upsertError ) throw upsertError;
+            // console.log(data);
+            // console.log(user);
+            // console.log("User " + user2.name + " registered");
+            // setRegMsg(`${user} has joined the community!`);
+
         } catch(error) {
             alert(error.description || error.message);
         }
@@ -62,7 +67,9 @@ const RegistrationPage = () => {
       <h1 className="my-8 p-2 text-3xl font-bold bg-indigo-100">L2P logo</h1>
       <RegistrationMessage message={regMsg}  />
       <RegistrationForm addUser={createNewUser}    />
-      <span>Already joined? Log in <Link to="/login" className="text-blue-500 underline">here</Link>.</span>
+      <span>Already joined? Log in <button className="text-blue-500 underline" onClick={ () => {
+          setPage("login");
+      }} >here</button>.</span>
     </div>
   );
 };

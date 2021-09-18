@@ -13,6 +13,9 @@ import RegistrationPage from "./components/pages/RegistrationPage";
 import ResultsPage from "./components/pages/ResultsPage";
 import PracticePlan from "./components/pages/PracticePlan";
 import {FaHome, FaUserCircle} from 'react-icons/fa';
+import SearchForm from "./components/SearchForm";
+import PartnerPage from "./components/pages/PartnerPage";
+import NavBar from "./components/sections/header/NavBar"
 
 // - [x] functions
 // - [x] imp. v. declare
@@ -46,24 +49,36 @@ import {FaHome, FaUserCircle} from 'react-icons/fa';
 //@TODO: change user icon on dashboard page to logout icon if currently logged in
 
 export default function App() {
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [member, setMember] = useState( {} );
+    const [page, setPage] = useState("home");
 
     return (
-        <div className="bg-gray-300 h-screen">
+        <div className="bg-gray-500 h-screen">
+            <Header />
 
-          <Header />
-          <div className="w-96 h-mobile bg-white p-6  mx-auto rounded">
+            <div className="w-96 h-mobile bg-white p-6  mx-auto rounded">
+                <NavBar page={page} setPage={setPage}/>
 
-            <div className="my-4 px-4 flex justify-between">
-                <Link to="/"> { < FaHome size={30}/> } </Link>
-                <Link to="/dashboard">
-                    { < FaUserCircle size={30}/> }
-                </Link>
+                <Switch>
+                    <Route exact path="/" >
+                        <HomePage page={page} setPage={setPage} />
+                    </Route>
+                </Switch>
+
             </div>
 
+        </div>
+    );
+}
+// <Route exact path="/search" component={ResultsPage} />
+// <Route exact path="/about" component={AboutPage} />
+// <Route exact path="/contact" component={ContactPage} />
+// <Route exact path="/dashboard" component={DashboardPage} />
+// <Route exact path="/profile" component={ProfilePage} />
+
+/*
             <Switch>
                 <Route exact path="/" component={HomePage} />
+
                 <Route exact path="/dashboard" >
                     {loggedIn ?
                         <DashboardPage member={member} setLoggedIn={setLoggedIn}/> :
@@ -80,14 +95,4 @@ export default function App() {
 
                 <Route exact path="/registration" component={RegistrationPage} />
             </Switch>
-
-          </div>
-
-        </div>
-    );
-}
-// <Route exact path="/search" component={ResultsPage} />
-// <Route exact path="/about" component={AboutPage} />
-// <Route exact path="/contact" component={ContactPage} />
-// <Route exact path="/dashboard" component={DashboardPage} />
-// <Route exact path="/profile" component={ProfilePage} />
+ */

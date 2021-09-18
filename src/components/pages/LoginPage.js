@@ -6,7 +6,7 @@ import LoginForm from '../LoginForm';
 import { Link } from 'react-router-dom';
 
 
-function LoginPage( {setMember, setLoggedIn} ) {
+function LoginPage( {setMember, setLoggedIn, setPage} ) {
     const [name, setName] = useState( "" );
     // const [location, setLocation] = useState( {} )
     // const [instruments, setInstruments] = useState( {} );
@@ -20,11 +20,24 @@ function LoginPage( {setMember, setLoggedIn} ) {
 
         try {
             // // const user = supabase.auth.user();
-            // const { signInError } = await supabase.auth.signIn({
-            //     email: typedEmail,
-            //     password: typedPassword
-            // })
-            // if (signInError) throw signInError;
+            const { user, session, signInError } = await supabase.auth.signIn({
+                email: typedEmail,
+                password: typedPassword
+            })
+            if (signInError) throw signInError;
+            console.log(user);
+            const theirID = user.id;
+            // let { data: members, selectError } = await supabase
+            //     .from('members')
+            //     .select(`*, auth.users (id) `);
+            // const { data, selectError, status } = await supabase.from('members')
+            //                                                     .select('name')
+            //                                                     .eq('id', theirID)
+            //                                                     .single();
+
+            // if (selectError) throw selectError;
+            //console.log( data );
+
             // const {data, error, status} = await supabase.from('members')
             //                             .select('userID, name, created_at')
             //                             .eq('email', typedEmail)
@@ -39,16 +52,15 @@ function LoginPage( {setMember, setLoggedIn} ) {
             //     // setName(data.name);
             //     // setLocation(data.location);
             //     // setDateJoined(data.dateJoined);
-                setMember( {
-                    name: "Noob Saibot",
-                    location: "Chicago, IL, USA",
-                    // instruments: data.instruments,
-                    // about: data.about,
-                    // acctStatus: data.acctStatus,
-                    dateJoined: "Jan 1st 2000",
-                    lastLogin: "Sep 15 2021"
-                } )
-                setLoggedIn(true);
+            // console.log("Sign in successful");
+            setMember( {
+                name: "Casey Geist",        // data.name
+                location: "Boston, MA, USA",   // data.location
+                about: "developer & musician",  // data.about
+                instruments: "guitar, piano"  // data.instruments
+            } )
+
+            setLoggedIn(true);
                 //console.log("User " + data.name + " logged in");
             //}
         } catch (e) {
@@ -62,9 +74,16 @@ function LoginPage( {setMember, setLoggedIn} ) {
             <h1 className="my-8 p-2 text-3xl font-bold bg-indigo-100">L2P logo</h1>
             <h2 className="text-xl">Please log in to continue.</h2>
             <LoginForm handleLogin={handleLogin} />
-            <span>Haven't yet joined? Register <Link to="/registration" className="text-blue-500 underline">here</Link>.</span>
+            <span>Haven't yet joined? Register <button className="text-blue-500 underline" onClick={ () => {
+                setPage("register");
+            }}>here</button>.</span>
         </div>
     );
-}
+};
 
 export default LoginPage;
+
+
+// 403 - access denied
+// 404 - not found
+// 406 - not acceptable

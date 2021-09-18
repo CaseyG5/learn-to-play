@@ -1,16 +1,24 @@
 import { Link } from "react-router-dom";
+import { useEffect } from 'react';
+import {FaHome, FaUserCircle} from "react-icons/fa";
 
-const NavBar = () => {
-  return (
-    <div className="w-96 px-6 py-3 flex justify-end">
+const NavBar = ( {page, setPage} ) => {
+    let x;
 
-        <div className="w-1/3 flex justify-end">
-            {/*<Link to="/login">Login</Link>*/}
-            {/*<Link to="/registration">Register</Link>*/}
-        </div>
-
-    </div>
-  );
+    return (
+      <div className="my-4 px-4 flex justify-between">
+          <button onClick={ () => {
+              setPage("home");
+          }}>
+              { < FaHome size={30}/> }
+          </button>
+          <button onClick={ () => {
+              setPage("dashboard");
+          }}>
+              { < FaUserCircle size={30}/> }
+          </button>
+      </div>
+    );
 };
 export default NavBar;
 
@@ -27,3 +35,12 @@ export default NavBar;
 //     <Link to="/profile">My Account</Link>
 //     <Link to="/registration">Register</Link>
 // </div>
+
+// <div className="w-96 px-6 py-3 flex justify-end">
+//
+//         <div className="w-1/3 flex justify-end">
+//             {/*<Link to="/login">Login</Link>*/}
+//             {/*<Link to="/registration">Register</Link>*/}
+//         </div>
+//
+//     </div>

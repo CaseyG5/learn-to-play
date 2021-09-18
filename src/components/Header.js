@@ -5,8 +5,8 @@ import Profile from "./sections/header/Profile";
 export default function Header() {
 
   return (
-    <div className={"h-32 flex justify-center bg-gray-300"}>
-      {/*<NavBar />*/}
+    <div className={"h-32 flex justify-center bg-gray-500"}>
+
     </div>
   );
 };
