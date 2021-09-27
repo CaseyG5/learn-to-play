@@ -2,34 +2,51 @@ import {useState} from "react";
 import supabase from "../../supabaseClient";    // connect to supabase via api
 import RegistrationForm from "../sections/auth/RegistrationForm";
 import RegistrationMessage from "../sections/auth/RegistrationMessage";
-
-
+import axios from 'axios';
 
 const RegistrationPage = ( {setPage} ) => {
     const [regMsg, setRegMsg] = useState("Please join the community to continue.");
 
-    const createNewUser = async (userObj) => {
+    // const sesh = supabase.auth.session();
+    // console.log("session is: ", sesh);
+
+    const signUpUser = async (userObj) => {
+        setRegMsg("Attempting registration...");
         try {
-            const { user1, session, signupError } = await supabase.auth.signUp( {
+            let { user, error } = await supabase.auth.signUp({
                 email: userObj.email,
                 password: userObj.password
             });
-            if (signupError) throw signupError;
+            if (error) throw error;
+            else if( !user ) {
+                setRegMsg("No user returned - Supabase signup failed");
+                return;
+            }
 
-            // then how to add name to 'members' table using 'auth' table and 'id' or uuid???
-            // CURRENTLY GET 403 - access forbidden
-            // const { data, upsertError } = await supabase.from('members').insert( [
-            //     { name: userObj.name }
-            // ]);
-            //
-            // if( upsertError ) throw upsertError;
-            // console.log(data);
-            // console.log(user);
+            setRegMsg("Completing registration...");
+            const response = await axios( {
+                method: 'POST',
+                url: 'https://xkqhbvxuryilkcesbifl.supabase.co/rest/v1/userz',
+                headers: {
+                    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
+                    "Content-Type": "application/json",
+                    "Prefer": "return=representation"
+                },
+                data: {
+                    "id": user.id,
+                    "name": userObj.name
+                }
+            }).then( (resp) => {
+                setRegMsg( `${resp["data"][0]["name"]} has joined successfully.`  );
+            });
+
             // console.log("User " + user2.name + " registered");
             // setRegMsg(`${user} has joined the community!`);
 
-        } catch(error) {
-            alert(error.description || error.message);
+        } catch(e) {
+            console.log( e);
+            setRegMsg( `Registration error: ${e.description | e.message}` );
         }
 
     };
@@ -66,7 +83,7 @@ const RegistrationPage = ( {setPage} ) => {
     <div className="flex flex-col items-center">
       <h1 className="my-8 p-2 text-3xl font-bold bg-indigo-100">L2P logo</h1>
       <RegistrationMessage message={regMsg}  />
-      <RegistrationForm addUser={createNewUser}    />
+      <RegistrationForm signUp={signUpUser}    />
       <span>Already joined? Log in <button className="text-blue-500 underline" onClick={ () => {
           setPage("login");
       }} >here</button>.</span>
@@ -150,3 +167,46 @@ export default RegistrationPage;
 //         setLoading(false);
 //     }
 // }
+
+/*
+const { resp } = await axios( {
+    method: 'POST',
+    url: axiosURL,
+    // responseType: 'application/json',
+    headers: {
+        "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMxMTI1Njk0LCJleHAiOjE5NDY3MDE2OTR9.Zs6mQF5Gi0vZLvx9EdQmg0t4h9mw80z_lq1_kLuqQ84",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMxMTI1Njk0LCJleHAiOjE5NDY3MDE2OTR9.Zs6mQF5Gi0vZLvx9EdQmg0t4h9mw80z_lq1_kLuqQ84",
+        "Content-Type": "application/json",
+        "Prefer": "return=representation",
+    },
+    data: {
+      "id": "57ee7fee-45ae-488e-8356-32c8f03584cf",
+      "name": "Casey",
+      "created_at": "2021-06-12"
+    }
+});
+ */
+
+/* REPEATED ERRORS - NOTHING RETURNED TO USER AND SESSION - WHY?
+const { user1, session, signupError } = await supabase.auth.signUp( {
+                email: userObj.email,
+                password: userObj.password
+            });
+            if (signupError) throw signupError;
+ */
+
+/* DOESN'T WORK EITHER - 422 OR 500 ERRORS
+const signup = await axios( {
+    method: 'POST',
+    url: 'https://ycwmaxsxjguznhpxtooy.supabase.co/auth/v1/signup',
+    headers: {
+        "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMxMTI1Njk0LCJleHAiOjE5NDY3MDE2OTR9.Zs6mQF5Gi0vZLvx9EdQmg0t4h9mw80z_lq1_kLuqQ84",
+        "Content-Type": "application/json"
+    },
+    data: {
+        "email": userObj.email,
+        "password": userObj.password
+    }
+}).then( (resp) => { console.log("initial signup response: ", resp); } );
+await console.log(`Signup status: ${signup.status}`);
+*/

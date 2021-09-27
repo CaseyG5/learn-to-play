@@ -24,7 +24,7 @@ function RegistrationForm(props) {
       email.current.value = "";
       password.current.value = "";
 
-      props.addUser(newUser);
+      props.signUp(newUser);
   };
   return (
     <form onSubmit={handleSubmit}  className="w-80 my-8 flex flex-col items-center justify-between">

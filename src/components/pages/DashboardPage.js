@@ -4,17 +4,39 @@ import ProfileText from '../ProfileText';
 import ProfileEditForm from '../ProfileEditForm';
 import supabase from '../../supabaseClient';
 import { FaSignOutAlt} from "react-icons/fa";
+import axios from "axios";
 
 function DashboardPage( { member, setMember, setLoggedIn } ) {
     const [editing, setEditing] = useState(false);
 
     const updateProfile = async ( updates ) => {
         try {
-            const {upsertError} = await supabase.from('members').upsert(updates, {
-                returning: "minimal",
-                ignoreDuplicates: true,
+            const response = await axios( {
+                method: 'POST',
+                url: `https://xkqhbvxuryilkcesbifl.supabase.co/rest/v1/userz?id=eq.${member.id}`,
+                headers: {
+                    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
+                    "Content-Type": "application/json",
+                    "Prefer": "resolution=merge-duplicates"
+                },
+                data: {
+                    "id": member.id,
+                    "name": member.name,
+                    "location": updates.location,
+                    "created_at": member.dateJoined,
+                    "updated_at": updates.lastLogin,
+                    "about": updates.about,
+                    "has_plan": member.hasPlan
+                }
+            }).then( (resp) => {
+                console.log( "response to update request: ", resp );
             });
-            if (upsertError) throw upsertError;
+            // const {upsertError} = await supabase.from('userz').upsert(updates, {
+            //     returning: "minimal",
+            //     ignoreDuplicates: true,
+            // });
+            // if (upsertError) throw upsertError;
         } catch (e) {
             alert(e.description || e.message );
         }
