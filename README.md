@@ -41,7 +41,7 @@ This alpha version allows searching for just video lessons. But the availability
 - The React framework and TailwindCSS
 - Chrome developer console for debugging
 - GitHub for version control
-- Vercel for publishing online
+- Vercel for the option to publish online
 
 ### Results:
 
@@ -52,10 +52,16 @@ Created for version 1a:
 - account registration and sign in screens  
 - profile page with basic info and example practice plan
 
-Unfortunately, Supabase was not cooperative in accessing a table via foreign key or retrieving data fields from existing rows, and their
-example code has not yet been a success in my application.
+For a couple of weeks Supabase was not cooperative in accessing a table via foreign key or retrieving data fields from existing rows, and their
+example code did not work in my application. Quite frustrating. 
 Dozens of attempts were made, but the errors below blocked implementation of proper registration and login functions. Better luck next version!
 
 - 400 (bad request)
 - 403 (access denied) .............even using the service key
-- 406 (request non acceptable)
+- 405 (method not allowed)  
+- 406 (request not acceptable)
+- 422 (unprocessable entity)
+
+Then I created a new Supabase project to start fresh and, lo and behold, the `signUp()` and `signIn()` functions began
+working.  Axios allowed requests to be more direct; I think that helped too, especially for updating user fields
+in the database.

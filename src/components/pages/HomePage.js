@@ -1,9 +1,9 @@
 
 import { useState } from "react";
+import Config from '../../Config'
 import axios from "axios";
 import SearchForm from '../SearchForm';
 import ResultsPage from "./ResultsPage";
-
 import LoginPage from "./LoginPage";
 import RegistrationPage from "./RegistrationPage";
 import DashboardPage from "./DashboardPage";
@@ -12,7 +12,7 @@ import PartnerPage from "./PartnerPage";
 
 //@TODO: use in API_URL...  &fields=items(id,snippet)
 
-const API_KEY = process.env.YOUTUBE_DATA_KEY;
+
 
 const HomePage = ( {page, setPage} ) => {
     const [videos, setVideos] = useState( [] );
@@ -28,7 +28,7 @@ const HomePage = ( {page, setPage} ) => {
 
         // take skill level and check boxes and
         // use them to build a fetch URL
-        const API_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&order=rating&q=${searchTerms}&key=${API_KEY}`;
+        const API_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&order=rating&q=${searchTerms}&key=${Config.YTD_KEY}`;
 
         // fetch data via YouTube data API
         const getVideos = async () => {
@@ -68,9 +68,6 @@ const HomePage = ( {page, setPage} ) => {
             return  <SearchForm handleSearch={execSearch} setPage={setPage} />;
     }
 
-
-
-
 };
 
 export default HomePage;
@@ -83,12 +80,3 @@ export default HomePage;
 // newMessages = fetch(Message)
 // setMessage(newMessages)
 // }
-
-// dataReceived ?
-//     <ResultsPage data={videos} query={searchWords}/> :
-//     <div className="flex flex-col items-center">
-//         <h1 className="p-2 text-3xl font-bold bg-indigo-100">L2P logo</h1>
-//         <h2 className="text-xl">Learn to Play</h2>
-//         <h3 className="mb-8 text-xl">ANY instrument</h3>
-//         <SearchForm handleSearch={execSearch} setLoggedIn={setLoggedIn}/>
-//     </div>

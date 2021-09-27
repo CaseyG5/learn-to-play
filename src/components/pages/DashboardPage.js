@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import ProfileText from '../ProfileText';
 import ProfileEditForm from '../ProfileEditForm';
 import supabase from '../../supabaseClient';
-import { FaSignOutAlt} from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
+import Config from '../../Config'
 
 function DashboardPage( { member, setMember, setLoggedIn } ) {
     const [editing, setEditing] = useState(false);
@@ -13,10 +13,10 @@ function DashboardPage( { member, setMember, setLoggedIn } ) {
         try {
             const response = await axios( {
                 method: 'POST',
-                url: `https://xkqhbvxuryilkcesbifl.supabase.co/rest/v1/userz?id=eq.${member.id}`,
+                url: `${Config.SUPA_URL}/rest/v1/userz?id=eq.${member.id}`,
                 headers: {
-                    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
+                    "apikey": Config.SUPA_ADMIN_KEY,
+                    "Authorization": `Bearer ${Config.SUPA_ADMIN_KEY}`,
                     "Content-Type": "application/json",
                     "Prefer": "resolution=merge-duplicates"
                 },
@@ -47,12 +47,12 @@ function DashboardPage( { member, setMember, setLoggedIn } ) {
             <div className="">
                 <h3 className="mb-6 text-center text-xl font-bold">Profile</h3>
 
-
                 {editing ?
                     <ProfileEditForm member={member} setMember={setMember} updateProfile={updateProfile}
                                      setEditing={setEditing}/> :
                     <ProfileText member={member} setEditing={setEditing}/>
                 }
+
             </div>
 
             <div className="flex justify-center">

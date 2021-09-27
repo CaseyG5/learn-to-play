@@ -3,7 +3,6 @@ import supabase from '../../supabaseClient';
 import { useState } from "react";
 import Config from '../../Config'
 import LoginForm from '../LoginForm';
-import { Link } from 'react-router-dom';
 import axios from "axios";
 
 
@@ -38,10 +37,10 @@ function LoginPage( {setMember, setLoggedIn, setPage} ) {
 
             const response = await axios( {
                 method: 'GET',
-                url: `https://xkqhbvxuryilkcesbifl.supabase.co/rest/v1/userz?id=eq.${user.id}&select=*`,
+                url: `${Config.SUPA_URL}/rest/v1/userz?id=eq.${user.id}&select=*`,
                 headers: {
-                    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
+                    "apikey": Config.SUPA_ADMIN_KEY,
+                    "Authorization": `Bearer ${Config.SUPA_ADMIN_KEY}`,
                     "Content-Type": "application/json",
                     "Prefer": "return=representation"
                 }
@@ -72,14 +71,6 @@ function LoginPage( {setMember, setLoggedIn, setPage} ) {
             //     return;
             // }
 
-
-                // setName(data.name);
-                // setLocation(data.location);
-                // setDateJoined(data.dateJoined);
-
-
-                //console.log("User " + data.name + " logged in");
-            //}
         } catch (e) {
             alert(e.description || e.message);
         }

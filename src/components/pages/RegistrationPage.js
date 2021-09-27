@@ -3,6 +3,7 @@ import supabase from "../../supabaseClient";    // connect to supabase via api
 import RegistrationForm from "../sections/auth/RegistrationForm";
 import RegistrationMessage from "../sections/auth/RegistrationMessage";
 import axios from 'axios';
+import Config from '../../Config';
 
 const RegistrationPage = ( {setPage} ) => {
     const [regMsg, setRegMsg] = useState("Please join the community to continue.");
@@ -26,10 +27,10 @@ const RegistrationPage = ( {setPage} ) => {
             setRegMsg("Completing registration...");
             const response = await axios( {
                 method: 'POST',
-                url: 'https://xkqhbvxuryilkcesbifl.supabase.co/rest/v1/userz',
+                url: `${Config.SUPA_URL}/rest/v1/userz`,
                 headers: {
-                    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyNDMyOTE5LCJleHAiOjE5NDgwMDg5MTl9.z8UFoTve8-1tgxZbDkNOC9ha24DVqxS48-Ru3T2igc4",
+                    "apikey": Config.SUPA_ADMIN_KEY,
+                    "Authorization": `Bearer ${Config.SUPA_ADMIN_KEY}`,
                     "Content-Type": "application/json",
                     "Prefer": "return=representation"
                 },
@@ -40,9 +41,6 @@ const RegistrationPage = ( {setPage} ) => {
             }).then( (resp) => {
                 setRegMsg( `${resp["data"][0]["name"]} has joined successfully.`  );
             });
-
-            // console.log("User " + user2.name + " registered");
-            // setRegMsg(`${user} has joined the community!`);
 
         } catch(e) {
             console.log( e);
