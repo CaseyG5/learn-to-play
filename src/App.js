@@ -55,7 +55,7 @@ export default function App() {
         <div className="bg-gray-500 h-screen">
             <Header />
 
-            <div className="w-96 h-mobile bg-white p-6  mx-auto rounded">
+            <div className="w-96 h-mobile bg-white p-6 mx-auto rounded overflow-auto overscroll-y-contain">
                 <NavBar page={page} setPage={setPage}/>
 
                 <Switch>

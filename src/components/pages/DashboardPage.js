@@ -6,10 +6,10 @@ import { FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
 import Config from '../../Config'
 
-function DashboardPage( { member, setMember, setLoggedIn } ) {
+function DashboardPage( { member, setMember, setLoggedIn, setPage, savedVids } ) {
     const [editing, setEditing] = useState(false);
 
-    const updateProfile = async ( updates ) => {
+    const updateProfile = async (  ) => {
         try {
             const response = await axios( {
                 method: 'POST',
@@ -23,24 +23,21 @@ function DashboardPage( { member, setMember, setLoggedIn } ) {
                 data: {
                     "id": member.id,
                     "name": member.name,
-                    "location": updates.location,
+                    "location": member.location,
                     "created_at": member.dateJoined,
-                    "updated_at": updates.lastLogin,
-                    "about": updates.about,
-                    "has_plan": member.hasPlan
+                    "updated_at": member.lastLogin,
+                    "about": member.about,
+                    "has_plan": member.hasPlan,
+                    "saved_vids": savedVids
                 }
             }).then( (resp) => {
                 console.log( "response to update request: ", resp );
+                console.log( "Profil har blivit uppdaterat")
             });
-            // const {upsertError} = await supabase.from('userz').upsert(updates, {
-            //     returning: "minimal",
-            //     ignoreDuplicates: true,
-            // });
-            // if (upsertError) throw upsertError;
         } catch (e) {
             alert(e.description || e.message );
         }
-    }
+    };
 
     return (
         <div className="flex flex-col justify-between">
@@ -50,13 +47,19 @@ function DashboardPage( { member, setMember, setLoggedIn } ) {
                 {editing ?
                     <ProfileEditForm member={member} setMember={setMember} updateProfile={updateProfile}
                                      setEditing={setEditing}/> :
-                    <ProfileText member={member} setEditing={setEditing}/>
+                    <ProfileText member={member} setEditing={setEditing} savedVids={savedVids}/>
                 }
 
             </div>
 
+            <div><button className="font-bold underline" onClick={  () => {
+                setPage("results");
+            } }>BACK</button> to search results</div>
+
             <div className="flex justify-center">
                 <button className=" flex" onClick={ async () => {
+                    //write saved items
+                    await updateProfile();                                            // writes updates to DB before logging out
                     const {soError} = await supabase.auth.signOut();
                     if(soError) alert(error.description || error.message);
                     setLoggedIn(false);

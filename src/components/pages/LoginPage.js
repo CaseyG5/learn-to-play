@@ -4,9 +4,10 @@ import { useState } from "react";
 import Config from '../../Config'
 import LoginForm from '../LoginForm';
 import axios from "axios";
+import SavedRow from "../SavedRow";
 
 
-function LoginPage( {setMember, setLoggedIn, setPage} ) {
+function LoginPage( {setMember, setLoggedIn, setPage, savedVids, setSavedVids} ) {
     const [name, setName] = useState( "" );
     // const [location, setLocation] = useState( {} )
     // const [instruments, setInstruments] = useState( {} );
@@ -57,8 +58,13 @@ function LoginPage( {setMember, setLoggedIn, setPage} ) {
                         lastLogin: data["updated_at"],
                         location: data["location"],
                         about: data["about"],
-                        hasPlan: data["has_plan"]
-                    } )
+                        hasPlan: data["has_plan"],
+                        savedVids: data["saved_vids"]
+                    } );
+                    // @TODO: fix this so as not to add an empty row each time we log in
+                    if(data["saved_vids"]) data["saved_vids"].forEach( (item) => {
+                        setSavedVids( [ ...savedVids, <SavedRow number={savedVids.length + 1} url={item.url} title={item.title} key={item.id}/> ] );
+                    })
                     console.log("Sign in successful");
                     setLoggedIn(true);
             } );

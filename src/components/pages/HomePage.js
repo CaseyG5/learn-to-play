@@ -9,12 +9,18 @@ import RegistrationPage from "./RegistrationPage";
 import DashboardPage from "./DashboardPage";
 import PracticePlan from "./PracticePlan";
 import PartnerPage from "./PartnerPage";
+import SavedRow from "../SavedRow";
 
 //@TODO: use in API_URL...  &fields=items(id,snippet)
-
+// use 'list' operation to GET a list of 0+ resources
+// the 'part' parameter to select only the resource components which are needed
+// the 'fields' parameter filters the API response, containing the resource parts identified with 'part'
 
 
 const HomePage = ( {page, setPage} ) => {
+    let tempSaved = [];
+    const [favesUpdated, setFavesUpdated] = useState(false);
+    const [savedVids, setSavedVids] = useState( [] );
     const [videos, setVideos] = useState( [] );
     const [loggedIn, setLoggedIn] = useState(false);
     const [member, setMember] = useState( {} );
@@ -28,7 +34,7 @@ const HomePage = ( {page, setPage} ) => {
 
         // take skill level and check boxes and
         // use them to build a fetch URL
-        const API_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&order=rating&q=${searchTerms}&key=${Config.YTD_KEY}`;
+        const API_URL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=rating&q=${searchTerms}&key=${Config.YTD_KEY}`;
 
         // fetch data via YouTube data API
         const getVideos = async () => {
@@ -46,16 +52,31 @@ const HomePage = ( {page, setPage} ) => {
         let promise = getVideos();
     }
 
+    const addToFaves = (vidID, vidURL, vidTitle) => {
+        console.log("addToFaves BUTTON clicked");
+
+        tempSaved.push( {                     // save the new item
+            id: vidID,
+            url: vidURL,
+            title: vidTitle
+        } );
+        setSavedVids( [ ...savedVids, <SavedRow number={savedVids.length + 1} url={vidURL} title={vidTitle} key={vidID}/> ] );
+
+        setFavesUpdated(true);
+    };
+
+
+
 
     switch(page) {
         case "results":
-            return <ResultsPage data={videos} query={searchWords}/> ;
+            return <ResultsPage data={videos} query={searchWords} addToFaves={addToFaves} loggedIn={loggedIn}/> ;
         case "login":
-            if (!loggedIn) return <LoginPage setMember={setMember} setLoggedIn={setLoggedIn} setPage={setPage}/>;
-            return <DashboardPage member={member} setMember={setMember} setLoggedIn={setLoggedIn} />;
+            if (!loggedIn) return <LoginPage setMember={setMember} setLoggedIn={setLoggedIn} setPage={setPage} savedVids={savedVids} setSavedVids={setSavedVids} />;
+            return <DashboardPage member={member} setMember={setMember} setLoggedIn={setLoggedIn} setPage={setPage} savedVids={savedVids}/>;
         case "dashboard":
-            if (loggedIn) return <DashboardPage member={member} setMember={setMember} setLoggedIn={setLoggedIn} />;
-            return <LoginPage setMember={setMember} setLoggedIn={setLoggedIn} setPage={setPage} /> ;
+            if (loggedIn) return <DashboardPage member={member} setMember={setMember} setLoggedIn={setLoggedIn} setPage={setPage} savedVids={savedVids}/>;
+            return <LoginPage setMember={setMember} setLoggedIn={setLoggedIn} setPage={setPage} savedVids={savedVids} setSavedVids={setSavedVids} /> ;
         // case "practice":
         //     if(loggedIn) return <PracticePlan /> ;
         //     return <LoginPage setLoggedIn={setLoggedIn} /> ;

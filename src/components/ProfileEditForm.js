@@ -20,7 +20,7 @@ export default function ProfileEditForm ( { member, setMember, updateProfile, se
             // name: name.current.value,
             about: about.current.value,
             location: location.current.value,
-            lastLogin: "2021-09-24T23:59:59.123Z"
+            lastLogin: "2021-09-30T23:59:59.123Z"
             // instruments: instruments.current.value
         };
 
@@ -31,10 +31,8 @@ export default function ProfileEditForm ( { member, setMember, updateProfile, se
             ...updates
         } );
 
-        updateProfile( updates );
-
         setEditing(false);
-        console.log("member is now: ", member);
+        //console.log("member is now: ", member);
     }
 
     return (
